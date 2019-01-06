@@ -1,0 +1,66 @@
+{
+  "name": "uuler",
+  "private": true,
+  "devDependencies": {
+    "bcrypt": "^1.0.2",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-cache": "^0.2.10",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^2.3.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-filter": "^2.0.2",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-karma": "0.0.4",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-ng-annotate": "^1.0.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^5.0.1",
+    "gulp-rev-replace": "^0.4.2",
+    "gulp-ruby-sass": "^2.1.1",
+    "gulp-uglify": "^1.5.4",
+    "gulp-useref": "^3.0.0",
+    "gulp-util": "^3.0.6",
+    "gulp-watch": "^4.3.11",
+    "jshint-stylish": "^1.0.2",
+    "lazypipe": "^0.2.4",
+    "open": "0.0.5",
+    "rimraf": "^2.4.0",
+    "run-sequence": "^1.2.2",
+    "wiredep": "^2.2.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "description": "",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bitcore-lib": "^0.13.19",
+    "body-parser": "^1.15.2",
+    "crypto": "0.0.3",
+    "express-session": "^1.15.1",
+    "method-override": "^2.3.7",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "redis": "^2.6.3",
+    "request": "^2.79.0",
+    "session-memory-store": "^0.2.2",
+    "socket.io": "^1.7.2"
+  }
+}

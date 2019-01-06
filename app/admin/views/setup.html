@@ -1,0 +1,63 @@
+<style>
+.newaddress.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+.newaddress.ng-enter.ng-enter-active {
+  opacity:1;
+}
+</style>
+
+
+
+<div class="ui segment">
+
+<h4 class="ui horizontal divider header">
+  <i class="add square icon"></i>
+  Generate Receiving Bitcoin Addresses
+</h4>
+
+<div class="ui right action labeled input">
+  <div class="ui label">
+    How many?
+  </div>
+  <input type="number" value="0" ng-model="btcToGenerate">
+    <button class="ui teal button plus square outline icon" ng-click="generateBtc()">
+    <i class="plus square outline icon"></i>
+  </button>
+</div>
+
+
+{{currentAddress}}
+
+<div class="ui teal progress" id="progressBar">
+  <div class="bar"></div>
+  <div class="label">{{generatedSofar | number : 2}}% Generated</div>
+</div>
+
+<div class="ui three large steps" ng-show="downloadReady">
+  <div class="step" ng-class="{'active' : downloadActive, 'completed' : !downloadActive}">
+    <i class="download icon"></i>
+    <div class="content">
+      <a class="title" id="link" download="uuler.json" ng-click="jsonDownload()">Download JSON Keys</a>
+    </div>
+  </div>
+  <div class="step" ng-class="{'disabled' : !syncActive, 'active': syncActive, 'completed': syncCompleted}">
+    <i class="cloud upload icon"></i>
+    <div class="content">
+      <a class="title" href="#!/setup" ng-click="Sync()">Sync with Server</a>
+    </div>
+  </div>
+  <div class="disabled step" ng-class="{'disabled' : !stepsFinished, 'completed' : stepsFinished}">
+    <i class="checkmark box icon"></i>
+    <div class="content">
+      <div class="title">Get Confirmation</div>
+    </div>
+  </div>
+</div>
+
+<div ng-show="syncError" class="ui red message">Oops, Sync fail! Delete records and try again.</div>
+
+
+
+</div>

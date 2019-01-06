@@ -1,0 +1,81 @@
+
+
+
+<br/><br/><br/><br/>
+
+<center><h4 style="font-size: 30px;color:#d3d9e2;"> Do you have something for sale? </h4></center>
+
+<br/><br/><br/><br/><br/><br/>
+
+
+<div>
+  <div class="ui wide one column stackable middle aligned page grid" style="margin-right: 100px;">
+
+  <div class="ui vertical divider" style="height:200px;color:#d3d9e2;">
+    Yes?
+  </div>
+
+
+
+    <div class="ui card seven wide column" >
+
+      <div ng-if="done">
+      <div class="ui green message"> <b>Done! </b> Share this link with your clients :</div>
+  
+        <div  class="ui action input fluid">
+
+          <input select-all-on-click id="publicLink" class="js-copytextarea" type="text" value="{{publicLink}}" >
+          <button class="ui blue right labeled icon button" ng-click="copy()">
+            <i class="js-textareacopybtn copy icon"></i>
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <form class="newitemform" name="mainForm" ng-if="!done" novalidate>
+      <div class="ui form" >
+        <div class="field" ng-class="{ 'error' : mainForm.content.$invalid && mainForm.content.$touched }">
+          <label>What is it you're selling?</label>
+          <textarea name="content" ng-model="form.content" required></textarea>
+        </div>
+
+        <div class="field" ng-class="{ 'error' : mainForm.address.$invalid && mainForm.address.$touched }">
+          <label>Where do we send the money?</label>
+          <input type="text" name="address" ng-model="form.address" ng-pattern="/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/" placeholder="Address e.g. 1BoatSLRHtKNngkdXEeobR76b53LETtpyT" required>
+        </div>
+        
+
+        <div class="ui labeled input" ng-class="{ 'error' : mainForm.amount.$invalid && mainForm.amount.$touched }" >
+          <div class="ui label ">฿</div>
+          <input type="text" placeholder="Amount" name="amount" ng-model="form.amount" ng-pattern="/^\d+([,.]\d+)?$/" required>
+        </div>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="ui right labeled icon basic blue button right floated left aligned six wide column" ng-class="{'disabled loading' : form.isSubmitting}" ng-click="new()" ng-disabled="mainForm.$invalid">
+          <i class="arrow right icon"></i>
+          That's it
+        </button>
+
+        <div ng-show="form.failed" class="ui red message">Oops, server error! Try again.</div>
+      </div>
+      </form>
+
+
+
+    </div>
+  <img src="images/Rigby_character.png" style="margin-left: 210px;margin-top:-105px; height: 462px;" />
+
+  </div>
+
+<!--
+<span ng-if="newItem">admin link : {{adminLink}}</span><br/>
+<span ng-if="newItem">public link : {{publicLink}}</span><br/>
+-->
+
+
+
+<br/>
+

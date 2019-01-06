@@ -1,0 +1,68 @@
+<div>
+
+
+
+	<br/><br/><br/>
+
+	<div class="ui grid stackable center aligned" >
+		<div class="one colum row">
+			<div class="ui cards ">
+
+			  <div id="invoiceCard" class="card" ng-if="displayInvoice && !displayExpired" style="width: 320px;">
+			    <div class="content"><center>
+			      <div class="meta">
+			      	<br/>
+			        <div id="qrcode" style="opacity:0.80"></div>
+			        <br/>
+			      </div>
+			      <div class="description center aligned">
+			        Send <span class="highlightable" highlight-text id="invoiceAmount">{{invoice.amount}}</span>฿ to <span class="highlightable" highlight-text id="invoiceAddress">{{invoice.address}}</span>
+			      </div>
+			    </center>
+			    </div>
+			    <div class="extra content">
+			      <span class="right floated" style="padding-top: 7px;">
+			        <small>Time left : {{minute}}:{{second}}</small>
+			      </span>
+
+			      <span class="left floated">
+					<div class="ui labeled button" tabindex="0" ng-click="test()">
+						<div class="ui basic blue button">
+							<i class="bitcoin icon"></i> Pay It
+						</div>
+						<a class="ui basic left pointing blue label">
+							    {{invoice.amount}}฿
+						</a>
+					</div>
+			      </span>
+			      
+			    </div>
+			  </div>
+
+			  	<div class="card" style="width: 640px;">
+				  <div class="ui inverted active dimmer" ng-if="displayExpired">
+				    <div class="ui indeterminate text loader">This link has expired</div>
+				  </div>
+			    <div class="content">
+			      <div class="ui description">
+			        <b>Content</b> <br/> <br/> <img src="../images/paragraph.png" class="ui wireframe image" ng-if="!displayItem"> <div ng-if="displayItem" class="ui form"><textarea rows="16">{{invoice.content}}</textarea></div> 
+			      </div>
+			    </div>
+			    <div class="extra content">
+			    <!--
+			      <span class="left floated" style="padding-top: 5px;">
+			        <small>Your unique permanant link:</small>
+			      </span> -->
+			      <span class="right floated" >
+			      	<small id="invoiceLink" highlight-text>{{invoiceLink}}</small>
+			      </span>
+			      
+			    </div>
+			  </div>
+			</div>
+
+		</div>
+
+	  	<div ng-if="showItem">your permanant bill : {{invoice.invoiceString}} <br/> content: {{invoice.content}}</div>
+	</div>
+</div>

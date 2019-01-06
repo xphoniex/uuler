@@ -1,0 +1,56 @@
+<style>
+.transaction.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.transaction.ng-leave.ng-leave-active {
+  opacity:0;
+}
+</style>
+
+<div class="ui segment">
+<table class="ui compact celled definition table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Address</th>
+      <th>Total Due</th>
+      <th>Current Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="transaction" ng-repeat="transaction in transactions">
+      <td class="collapsing">
+        <div class="ui fitted toggle checkbox">
+          <input type="checkbox" ng-click="toggled(transaction)" ng-model="transaction.selected"> <label></label>
+        </div>
+      </td>
+      <td>{{transaction.address}}</td>
+      <td>฿{{transaction.total}}</td>
+      <td>฿0</td>        	
+    </tr>
+  </tbody>
+
+
+
+
+  <tfoot class="full-width">
+    <tr>
+      <th></th>
+      <th colspan="4">
+        <div class="ui right floated small primary labeled icon button" ng-click="uploadKeys()">
+          <i class="key icon" ></i> Upload Keys
+        </div>
+        <div class="ui small button" ng-click="removeOne()">
+          Approve
+        </div>
+        <div class="ui small button" ng-click="approveAll()">
+          Approve All
+        </div>
+      </th>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+  <input id="fileUpload" type="file" style="display: none;" />
