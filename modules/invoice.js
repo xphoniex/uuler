@@ -1,10 +1,11 @@
 // invoice.js
 
-const redis   = require('redis')
-const crypto  = require('crypto')
-const pub     = redis.createClient()
-const DB      = new (require('./rdb.js'))
-const Btc     = new (require('./btc.js'))(transactionHandler=null, spawn=false)
+const redis     = require('redis')
+const crypto    = require('crypto')
+const pub       = redis.createClient()
+const DB        = new (require('./rdb.js'))
+const Btc       = new (require('./btc.js'))(transactionHandler=null, spawn=false)
+const BigNumber = require('bignumber.js')
 
 module.exports = function() {
 
@@ -103,7 +104,7 @@ async function generateInvoice(public_string, btc, callback) {
 
   // we add payment forwarding address here
   invoice.forward = item.address
-  invoice.target = btc.balance + item.amount
+  invoice.target = new BigNumber(btc.balance).plus(item.amount).toString() 
   invoice.invoiceString = invoice_string
 
   await DB.setAddressInvoice(btc.address, invoice)

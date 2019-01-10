@@ -1,9 +1,10 @@
 // routes.js
 
-const crypto 	= require('crypto')
-const config  = require('./config.js')
-const Invoice = require('./invoice.js')()
-const DB 			= new (require('./rdb.js'))
+const crypto 		= require('crypto')
+const config  	= require('./config.js')
+const Invoice 	= require('./invoice.js')()
+const DB 				= new (require('./rdb.js'))
+const BigNumber = require('bignumber.js')
 
 module.exports = function(app, passport) {
 
@@ -30,7 +31,7 @@ app.post('/api/new', function(req, res, next) {
 			merchant: req.body.merchant,
 			content : req.body.content,
 			address : req.body.address,
-			amount  : parseInt(req.body.amount*100000000)
+			amount  : new BigNumber(req.body.amount).multipliedBy(100000000).toString()
 	}
 
 	DB.setItemForString(item, public_string, admin_string)

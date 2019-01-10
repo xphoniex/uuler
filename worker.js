@@ -1,7 +1,8 @@
 // worker.js
 
-const bitcore = require('bitcore-lib')
-const DB 			= new (require('./modules/rdb.js'))
+const bitcore 	= require('bitcore-lib')
+const DB 				= new (require('./modules/rdb.js'))
+const BigNumber = require('bignumber.js')
 
 var addresses = {} // maps addresses[address] => invoice(address)
 
@@ -18,8 +19,8 @@ let transactionOutputHandler = (output) => {
     return
   let address = output.script.toAddress(Btc.node.network).toString()
   if (addresses[address] === undefined) return
-  addresses[address].currentBalance += output.satoshis
-  if (addresses[address].currentBalance >= addresses[address].target)
+  addresses[address].currentBalance = addresses[address].currentBalance.plus(output.satoshis)
+  if (addresses[address].currentBalance.gte(addresses[address].target))
     gotPaid(address)
 }
 
@@ -37,7 +38,8 @@ let grabInvoice = async (address) => {
   if (!invoice)
     return
 
-  invoice.currentBalance = await Btc.balanceOf(address)
+	let balance = await Btc.balanceOf(address)
+  invoice.currentBalance = new BigNumber(balance)
 	console.log(`[grabbing] invoice:`)
 	console.log(invoice)
 
@@ -77,7 +79,7 @@ let gotPaid = (address) => {
       ['set', full_invoice, JSON.stringify(invoice)], 												                   // 1. UPDATE INVOICE i-[]-{}
       ['lpush', '{'+address+'}-rec', JSON.stringify(invoice_rec)],									             // 2. INSERT RECEIPT to {btc}-rec list
       ['del', 'for-{'+address+'}'],																                               // 3. DELETE for-{btc}
-      ['hincrby', ('{' + address + '}-due'), invoice_rec.forward, parseInt(invoice_rec.amount)], // 4. UPDATE DUE BALANCE FOR FORWARD ADDRESS
+      ['hincrby', ('{' + address + '}-due'), invoice_rec.forward, invoice_rec.amount], 					 // 4. UPDATE DUE BALANCE FOR FORWARD ADDRESS
       ['lrem', 'reserved', 0, address],                                                          // 5. REMOVE FROM RESERVED
       ['lpush', 'available', address]                                                            // 6. PUSH BACK TO AVAILABLE
   ]).exec(function (error, replies) {

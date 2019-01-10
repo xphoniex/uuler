@@ -1,8 +1,9 @@
 // admin.js
 
-const bitcore = require('bitcore-lib')
-const config 	= require('./config.js')
-const DB 			= new (require('./rdb.js'))
+const bitcore 	= require('bitcore-lib')
+const config 		= require('./config.js')
+const DB 				= new (require('./rdb.js'))
+const BigNumber = require('bignumber.js')
 
 module.exports = function(app) {
 
@@ -42,10 +43,10 @@ function getAddressDues(address) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			var dues = await DB.getAddressDues(address)
-			var totalDue = 0
+			var totalDue = new BigNumber(0)
 			for (let i of Object.keys(dues))
-				totalDue += parseInt(dues[i])
-			resolve({address:address, dues: dues, total: totalDue})
+				totalDue = totalDue.plus(dues[i])
+			resolve({address:address, dues: dues, total: totalDue.toString()})
 		} catch (error) {
 			reject(error)
 		}
@@ -75,18 +76,19 @@ function generateSummary() {
 
 async function proccessDues(address, privateKey) {
 	try {
+		BigNumber.config({ ROUNDING_MODE: 1 }) // 1 = ROUND_DOWN
 		let dues = await DB.getAddressDues(address)
 		let forwards = Object.keys(dues)
 		let utxos = await Btc.getUtxos(address) // TODO promise all dues & utxos
-		var commission = 0
+		var commission = new BigNumber(0)
 		var transaction = new bitcore.Transaction().fee(config.TRANSACTION_FEE).from(utxos)
 		const transactionFee = parseInt(config.TRANSACTION_FEE / forwards.length) + 1
 		for (let i = 0 ; i < forwards.length ; ++i) {
-			let amount = parseInt(dues[forwards[i]])
-			commission += amount * config.COMMISSION
-			transaction = transaction.to(forwards[i], parseInt(amount * (1-config.COMMISSION)) - transactionFee)
+			let amount = new BigNumber(dues[forwards[i]])
+			commission = commission.plus( amount.multipliedBy(config.COMMISSION) )
+			transaction = transaction.to(forwards[i], amount.multipliedBy(1-config.COMMISSION).minus(transactionFee).toFixed(0))
 		}
-		transaction = transaction.to(config.COMMISSION_ADDRESS, commission).change(address).sign(privateKey).checkedSerialize()
+		transaction = transaction.to(config.COMMISSION_ADDRESS, commission.toFixed(0)).change(address).sign(privateKey).checkedSerialize()
 		await Btc.sendTransaction(transaction)
 	} catch (error) {
 		console.error(error)

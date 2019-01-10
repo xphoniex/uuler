@@ -50,6 +50,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bignumber.js": "^8.0.1",
     "bitcore-lib": "^0.13.19",
     "body-parser": "^1.15.2",
     "crypto": "0.0.3",
