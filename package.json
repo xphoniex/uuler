@@ -54,6 +54,7 @@
     "bitcore-lib": "^0.13.19",
     "body-parser": "^1.15.2",
     "crypto": "0.0.3",
+    "express": "4.16.4",
     "express-session": "^1.15.1",
     "method-override": "^2.3.7",
     "morgan": "^1.7.0",
